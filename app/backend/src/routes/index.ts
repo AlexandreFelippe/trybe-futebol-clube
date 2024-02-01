@@ -5,6 +5,6 @@ import userRouter from './user.routes';
 const router = Router();
 
 router.use('/teams', teamRouter);
-router.use('/users', userRouter);
+router.use('/login', userRouter);
 
 export default router;
