@@ -3,15 +3,14 @@ import { NextFunction, Request, Response } from 'express';
 
 export default class AuthMiddleware {
   static handle(req: Request, res: Response, next: NextFunction) {
-    console.log(req.headers.authorization);
     if (!req.headers.authorization) {
-      return res.status(401).json({ message: 'Não recebi o token' });
+      return res.status(401).json({ message: 'Token not found' });
     }
 
     const [type, token] = req.headers.authorization.split(' ');
 
-    if (type !== 'Bearer') {
-      return res.status(401).json({ message: 'Tipo de token inválido' });
+    if (type !== 'Bearer' || !token) {
+      return res.status(401).json({ message: 'Token must be a valid token' });
     }
 
     try {
@@ -19,7 +18,7 @@ export default class AuthMiddleware {
       const payload = jwt.verify(token, secret);
       res.locals.auth = payload;
     } catch (err) {
-      return res.status(401).json({ message: 'Token inválido' });
+      return res.status(401).json({ message: 'Token must be a valid token' });
     }
     next();
   }

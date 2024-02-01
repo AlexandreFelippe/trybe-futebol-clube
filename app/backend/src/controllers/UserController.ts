@@ -14,4 +14,9 @@ export default class UserController {
 
     return res.status(httpStatus).json(data);
   }
+
+  public static async validate(req: Request, res: Response) {
+    const { role } = res.locals.auth;
+    return res.status(200).json({ role });
+  }
 }
