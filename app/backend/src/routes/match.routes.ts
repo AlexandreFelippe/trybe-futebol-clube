@@ -23,4 +23,10 @@ router.patch(
   (req: Request, res: Response) => matchController.updateMatch(req, res),
 );
 
+router.post(
+  '/',
+  auth.handle,
+  (req, res) => matchController.createMatch(req, res),
+);
+
 export default router;
