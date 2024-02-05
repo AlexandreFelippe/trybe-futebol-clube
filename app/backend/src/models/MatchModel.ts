@@ -20,9 +20,9 @@ export default class MatchModel implements IMatchModel {
   }
 
   async findByProgress(query: string): Promise<IMatch[]> {
-    const progress = query === 'true';
+    const isInProgress = query.toLowerCase() === 'true';
     const matches = await this.matchModel.findAll({
-      where: { inProgress: progress },
+      where: { inProgress: isInProgress },
       include: [
         { model: SequelizeTeam, as: 'homeTeam', attributes: ['teamName'],
         },
@@ -32,5 +32,9 @@ export default class MatchModel implements IMatchModel {
       attributes: { exclude: ['home_Team_Id', 'away_Team_Id'] },
     });
     return matches;
+  }
+
+  async finishMatch(id: number): Promise<void> {
+    await this.matchModel.update({ inProgress: false }, { where: { id } });
   }
 }
