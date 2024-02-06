@@ -48,6 +48,21 @@ describe('Users Test', function() {
     expect(status).to.equal(404);
     expect(body.message).to.equal('User not found');
   });
+  it('should return a token when user is autenticated', async function () {
+    const response = await chai.request(app).post('/login').send(validLoginBody);
+    expect(response.status).to.equal(200);
+    expect(response.body).to.haveOwnProperty('token');    
+  })
+  it('should return a message when email is invalid', async function () {
+    const response = await chai.request(app).post('/login').send(invalidEmailLoginBody);
+    expect(response.status).to.equal(400);
+    expect(response.body).to.haveOwnProperty('message');
+  })
+  it('should return a message when password is invalid', async function () {
+    const response = await chai.request(app).post('/login').send(invalidPasswordLoginBody);
+    expect(response.status).to.equal(400);
+    expect(response.body).to.haveOwnProperty('message');
+  })
   afterEach(sinon.restore)
 })
 })

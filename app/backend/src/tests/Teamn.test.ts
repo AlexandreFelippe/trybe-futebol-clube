@@ -20,7 +20,7 @@ describe('Teams Test', () => {
     sinon.restore();
   })
 
-  it('should return a book by id', async function() {
+  it('should return a team by id', async function() {
     sinon.stub(SequelizeModel, 'findByPk').resolves(teamId as any);
     const response = await chai.request(app).get('/teams/5');
     expect(response.status).to.be.eq(200);
