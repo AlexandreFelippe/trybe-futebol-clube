@@ -41,4 +41,13 @@ describe('Matches Test', () => {
     expect(status).to.be.equal(200);
     expect(body).to.be.deep.equal(matchGames);
   });
+  it('should return a created match', async () => {
+    sinon.stub(SequelizeModel, 'create').resolves(matchGames[0] as any);
+    const { status, body } = await chai
+      .request(app)
+      .post('/matches')
+      .send(matchGames[0]);
+    expect(status).to.be.equal(201);
+    expect(body).to.be.deep.equal(matchGames[0]);
+  })
 });
