@@ -5,8 +5,13 @@ import mapStatusHTTP from '../utils/mapStatusHTTP';
 export default class LeaderboardController {
   constructor(private leaderboardService = new LeaderboardService()) {}
 
-  async getAll(req: Request, res: Response) {
-    const { data } = await this.leaderboardService.getAll();
+  async getAllHome(req: Request, res: Response) {
+    const { data } = await this.leaderboardService.getAllHome();
+    return res.status(mapStatusHTTP('SUCCESSFUL')).json(data);
+  }
+
+  async getAllAway(req: Request, res: Response) {
+    const { data } = await this.leaderboardService.getAllAway();
     return res.status(mapStatusHTTP('SUCCESSFUL')).json(data);
   }
 }
