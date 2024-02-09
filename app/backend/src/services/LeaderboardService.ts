@@ -1,18 +1,16 @@
 import MatchModel from '../models/MatchModel';
 import TeamModel from '../models/TeamModel';
 import {
-  games,
+  homeGames,
   victoriesHome,
-  victoriesAway,
   lossesHome,
-  lossesAway,
   drawsHome,
-  drawsAway,
-  allPoints,
+  pointsHome,
   goalsFavorHome,
-  goalsFavorAway,
   goalsOwnHome,
-  goalsOwnAway,
+  goalsBalanceHome,
+  efficiencyHome,
+  sortTeams,
 } from '../utils/calcPoints';
 
 export default class LeaderboardService {
@@ -26,14 +24,17 @@ export default class LeaderboardService {
     const matches = await this.matchModel.findByProgress('false');
     const leaderboard = teams.map((team) => ({
       name: team.teamName,
-      totalPoints: allPoints(team.id, matches),
-      totalGames: games(team.id, matches),
-      totalVictories: victoriesHome(team.id, matches) + victoriesAway(team.id, matches),
-      totalDraws: drawsHome(team.id, matches) + drawsAway(team.id, matches),
-      totalLosses: lossesHome(team.id, matches) + lossesAway(team.id, matches),
-      goalsFavor: goalsFavorHome(team.id, matches) + goalsFavorAway(team.id, matches),
-      goalsOwn: goalsOwnHome(team.id, matches) + goalsOwnAway(team.id, matches),
+      totalPoints: pointsHome(team.id, matches),
+      totalGames: homeGames(team.id, matches),
+      totalVictories: victoriesHome(team.id, matches),
+      totalDraws: drawsHome(team.id, matches),
+      totalLosses: lossesHome(team.id, matches),
+      goalsFavor: goalsFavorHome(team.id, matches),
+      goalsOwn: goalsOwnHome(team.id, matches),
+      goalsBalance: goalsBalanceHome(team.id, matches),
+      efficiency: efficiencyHome(team.id, matches),
     }));
+    sortTeams(leaderboard);
     return { status: 'SUCCESFULL', data: leaderboard };
   }
 }
