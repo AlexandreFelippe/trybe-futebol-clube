@@ -20,6 +20,8 @@ import {
   efficiencyHome,
   efficiencyAway,
   sortTeams,
+  goalsBalanceTotal,
+  efficiencyTotal,
 } from '../utils/calcPoints';
 
 export default class LeaderboardService {
@@ -61,6 +63,25 @@ export default class LeaderboardService {
       goalsOwn: goalsOwnAway(team.id, matches),
       goalsBalance: goalsBalanceAway(team.id, matches),
       efficiency: efficiencyAway(team.id, matches),
+    }));
+    sortTeams(leaderboard);
+    return { status: 'SUCCESFULL', data: leaderboard };
+  }
+
+  async getAllTotal() {
+    const teams = await this.teamModel.findAll();
+    const matches = await this.matchModel.findByProgress('false');
+    const leaderboard = teams.map((team) => ({
+      name: team.teamName,
+      totalPoints: pointsAway(team.id, matches) + pointsHome(team.id, matches),
+      totalGames: awayGames(team.id, matches) + homeGames(team.id, matches),
+      totalVictories: victoriesAway(team.id, matches) + victoriesHome(team.id, matches),
+      totalDraws: drawsAway(team.id, matches) + drawsHome(team.id, matches),
+      totalLosses: lossesAway(team.id, matches) + lossesHome(team.id, matches),
+      goalsFavor: goalsFavorAway(team.id, matches) + goalsFavorHome(team.id, matches),
+      goalsOwn: goalsOwnAway(team.id, matches) + goalsOwnHome(team.id, matches),
+      goalsBalance: goalsBalanceTotal(team.id, matches),
+      efficiency: efficiencyTotal(team.id, matches),
     }));
     sortTeams(leaderboard);
     return { status: 'SUCCESFULL', data: leaderboard };

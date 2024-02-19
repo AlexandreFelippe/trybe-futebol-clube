@@ -14,4 +14,9 @@ export default class LeaderboardController {
     const { data } = await this.leaderboardService.getAllAway();
     return res.status(mapStatusHTTP('SUCCESSFUL')).json(data);
   }
+
+  async getAllTotal(req: Request, res: Response) {
+    const { data } = await this.leaderboardService.getAllTotal();
+    return res.status(mapStatusHTTP('SUCCESSFUL')).json(data);
+  }
 }
