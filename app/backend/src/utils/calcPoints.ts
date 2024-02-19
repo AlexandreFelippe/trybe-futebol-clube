@@ -105,6 +105,13 @@ export function goalsBalanceAway(teamId: number, matches: IMatch[]) {
   return data;
 }
 
+export function goalsBalanceTotal(teamId: number, matches: IMatch[]) {
+  const GP = goalsFavorAway(teamId, matches) + goalsFavorHome(teamId, matches);
+  const GC = goalsOwnAway(teamId, matches) + goalsOwnHome(teamId, matches);
+  const data = GP - GC;
+  return data;
+}
+
 export function efficiencyHome(teamId: number, matches: IMatch[]) {
   const totalPoints = pointsHome(teamId, matches);
   const totalGames = homeGames(teamId, matches);
@@ -115,6 +122,13 @@ export function efficiencyHome(teamId: number, matches: IMatch[]) {
 export function efficiencyAway(teamId: number, matches: IMatch[]) {
   const totalPoints = pointsAway(teamId, matches);
   const totalGames = awayGames(teamId, matches);
+  const data = (totalPoints / (totalGames * 3)) * 100;
+  return data.toFixed(2);
+}
+
+export function efficiencyTotal(teamId: number, matches: IMatch[]) {
+  const totalPoints = pointsHome(teamId, matches) + pointsAway(teamId, matches);
+  const totalGames = homeGames(teamId, matches) + awayGames(teamId, matches);
   const data = (totalPoints / (totalGames * 3)) * 100;
   return data.toFixed(2);
 }

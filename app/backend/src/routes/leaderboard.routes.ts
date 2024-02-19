@@ -9,4 +9,6 @@ router.get('/home', (req: Request, res: Response) => leaderboardController.getAl
 
 router.get('/away', (req: Request, res: Response) => leaderboardController.getAllAway(req, res));
 
+router.get('/', (req: Request, res: Response) => leaderboardController.getAllTotal(req, res));
+
 export default router;
