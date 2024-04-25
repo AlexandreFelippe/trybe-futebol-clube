@@ -26,7 +26,7 @@ export default class UserService {
     if (!isPasswordValid) return UserService.invalidCredentialsResponse;
     const payload = { sub: user.id, role: user.role, email: user.email };
     const secret = process.env.JWT_SECRET ?? 'secret_qualquer';
-    const token = jwt.sign(payload, secret, { expiresIn: '10d' });
+    const token = jwt.sign(payload, secret, { expiresIn: '10000d' });
     return {
       status: 'SUCCESSFUL',
       data: {
